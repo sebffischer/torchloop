@@ -5,14 +5,11 @@ namespace lltm {
 
 class optim_sgd {
 public:
-  // this is the slot to hold the void*
   std::shared_ptr<void> ptr;
-  // the constructor from a void*
   optim_sgd (void* x);
-  // casting operator Rcpp->SEXP
+  optim_sgd (std::shared_ptr<void> x) : ptr(x) {}
+  optim_sgd (SEXP x);
   operator SEXP () const;
-  // returns the void* from the type.
   void* get ();
 };
-
 }
