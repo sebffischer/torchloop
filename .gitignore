@@ -7,4 +7,5 @@ inst/lib
 inst/bin
 src/lltm.lib
 build
+.cache
 
