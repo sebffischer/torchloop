@@ -1,14 +1,32 @@
+#include <ATen/ops/_batch_norm_impl_index.h>
 #include <torch/torch.h>
 #define LANTERN_TYPES_IMPL // Should be defined only in a single file.
 #include <lantern/types.h>
-#include <iostream>
 #include <vector>
 #include "lltm/lltm.h"
+#include "lltm/lltm_types.h"
+
+#include <torch/script.h>  // One-stop header.
+
+using namespace torch::jit;
 
 torch::Tensor d_sigmoid(torch::Tensor z) {
   auto s = torch::sigmoid(z);
   return (1 - s) * s;
 }
+
+// [[torch::export(register_types=c("optim_sgd", "SGD", "void*", "lltm::optim_sgd"))]]
+optim_sgd lltm_sgd(torch::TensorList params, double lr, double momentum, double dampening,
+                        double weight_decay, bool nesterov) {
+
+  auto options = torch::optim::SGDOptions(lr)
+    .momentum(momentum)
+    .dampening(dampening)
+    .weight_decay(weight_decay)
+    .nesterov(nesterov);
+ return new torch::optim::SGD(params.vec(), options);
+}
+
 
 // [[torch::export]]
 std::vector<torch::Tensor> lltm_forward(

@@ -4,6 +4,8 @@
 #define TORCH_IMPL
 #define IMPORT_TORCH
 #include <torch.h>
+#include "exports.h"
+
 
 void host_exception_handler ()
 {
