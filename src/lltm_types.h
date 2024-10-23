@@ -1,7 +1,7 @@
 #pragma once
 #include <torch.h>
 
-namespace torchsparse {
+namespace lltm {
 
 class optim_sgd {
 public:
