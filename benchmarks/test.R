@@ -1,5 +1,7 @@
 library(torch)
 
-n = jit_trace(nn_linear(1, 1), torch_randn(1))
-
-lltm:::rcpp_lltm_forward(attr(n$forward, "method"), torch_randn(1))
+n = nn_linear(1, 1)
+input = torch_randn(1)
+nf = jit_trace(n, input)
+f = attr(nf$forward, "method")
+lltm:::rcpp_lltm_run_script_module(f, torch_randn(1, 1))
