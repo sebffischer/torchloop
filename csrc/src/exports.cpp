@@ -21,10 +21,10 @@ LLTM_API void* _lltm_sgd (void* params, double lr, double momentum, double dampe
   } LLTM_HANDLE_EXCEPTION
   return (void*) NULL;
 }
-torch::Tensor lltm_run_script_module (jit_module jit_module, torch::Tensor input);
-LLTM_API void* _lltm_run_script_module (void* jit_module, void* input) {
+stack lltm_run_script_module (graph_function fn, stack stack);
+LLTM_API void* _lltm_run_script_module (void* fn, void* stack) {
   try {
-    return  make_raw::Tensor(lltm_run_script_module(from_raw::JitModule(jit_module), from_raw::Tensor(input)));
+    return  make_raw::Stack(lltm_run_script_module(from_raw::GraphFunction(fn), from_raw::Stack(stack)));
   } LLTM_HANDLE_EXCEPTION
   return (void*) NULL;
 }
@@ -49,10 +49,17 @@ LLTM_API void _delete_optim_sgd (void* x) {
   } LLTM_HANDLE_EXCEPTION
   
 }
-void delete_jit_module2 (void* x);
-LLTM_API void _delete_jit_module2 (void* x) {
+void delete_graph_function (void* x);
+LLTM_API void _delete_graph_function (void* x) {
   try {
-     (delete_jit_module2(x));
+     (delete_graph_function(x));
+  } LLTM_HANDLE_EXCEPTION
+  
+}
+void delete_stack2 (void* x);
+LLTM_API void _delete_stack2 (void* x) {
+  try {
+     (delete_stack2(x));
   } LLTM_HANDLE_EXCEPTION
   
 }

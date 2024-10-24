@@ -13,15 +13,30 @@ public:
   void* get ();
 };
 
-class jit_module {
+class stack {
 public:
   std::shared_ptr<void> ptr;
   // constructor from a void* pointer;
-  jit_module (void* x);
+  stack (void* x);
   // constructor from a shared_ptr<void> pointer;
-  jit_module (std::shared_ptr<void> x) : ptr(x) {}
+  stack (std::shared_ptr<void> x) : ptr(x) {}
   // constructor from an R object;
-  jit_module (SEXP x);
+  stack (SEXP x);
+  // implicit casting operator
+  operator SEXP () const;
+  // conversion to a void* pointer;
+  void* get ();
+};
+
+class graph_function {
+public:
+  std::shared_ptr<void> ptr;
+  // constructor from a void* pointer;
+  graph_function (void* x);
+  // constructor from a shared_ptr<void> pointer;
+  graph_function (std::shared_ptr<void> x) : ptr(x) {}
+  // constructor from an R object;
+  graph_function (SEXP x);
   // implicit casting operator
   operator SEXP () const;
   // conversion to a void* pointer;

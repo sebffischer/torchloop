@@ -1,4 +1,6 @@
+#include <ATen/core/stack.h>
 #include <ATen/ops/_batch_norm_impl_index.h>
+#include <torch/csrc/jit/api/function_impl.h>
 #include <torch/torch.h>
 #define LANTERN_TYPES_IMPL // Should be defined only in a single file.
 #include <lantern/types.h>
@@ -26,10 +28,12 @@ optim_sgd lltm_sgd(torch::TensorList params, double lr, double momentum, double 
 }
 
 
-// [[torch::export(register_types=c("jit_module", "JitModule", "void*", "lltm::jit_module"))]]
-torch::Tensor lltm_run_script_module(jit_module jit_module, torch::Tensor input) {
-    torch::Tensor output = jit_module->forward({input}).toTensor();
-    return output;
+// [[torch::export(register_types=list(c("graph_function", "GraphFunction", "void*", "lltm::graph_function"), c("stack", "Stack", "void*", "lltm::stack")))]]
+stack lltm_run_script_module(graph_function fn, stack stack) {
+  auto outputs = new torch::jit::Stack();
+  auto out = (*fn)(*stack);
+  outputs->push_back(out);
+  return outputs;
 }
 
 

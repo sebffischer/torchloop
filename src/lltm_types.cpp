@@ -4,6 +4,8 @@
 
 namespace lltm {
 
+// optim_sgd implementation
+
 void* optim_sgd::get() {
   return ptr.get();
 }
@@ -19,17 +21,35 @@ optim_sgd::optim_sgd (SEXP x) : optim_sgd{Rcpp::as<Rcpp::XPtr<optim_sgd>>(x)->pt
 optim_sgd::optim_sgd (void* x) : ptr(x, rcpp_delete_optim_sgd) {};
 
 
-void* jit_module::get() {
+void* graph_function::get() {
   return ptr.get();
 }
 
-jit_module::operator SEXP () const {
-  auto xptr = make_xptr<jit_module>(*this);
-  xptr.attr("class") = Rcpp::CharacterVector::create("lltm_jit_module");
+// graph_function implementation
+
+graph_function::operator SEXP () const {
+  auto xptr = make_xptr<graph_function>(*this);
+  xptr.attr("class") = Rcpp::CharacterVector::create("lltm_graph_function");
   return xptr;
 }
 
-jit_module::jit_module (SEXP x) : jit_module{Rcpp::as<Rcpp::XPtr<jit_module>>(x)->ptr} {}
+graph_function::graph_function (SEXP x) : graph_function{Rcpp::as<Rcpp::XPtr<graph_function>>(x)->ptr} {}
 
-jit_module::jit_module (void* x) : ptr(x, rcpp_delete_jit_module2) {};
+graph_function::graph_function (void* x) : ptr(x, rcpp_delete_graph_function) {};
+
+// stack implementation
+
+void* stack::get() {
+  return ptr.get();
+}
+
+stack::operator SEXP () const {
+  auto xptr = make_xptr<stack>(*this);
+  xptr.attr("class") = Rcpp::CharacterVector::create("lltm_stack");
+  return xptr;
+}
+
+stack::stack (SEXP x) : stack{Rcpp::as<Rcpp::XPtr<stack>>(x)->ptr} {}
+
+stack::stack (void* x) : ptr(x, rcpp_delete_stack2) {};
 }
