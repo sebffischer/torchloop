@@ -28,13 +28,20 @@ LLTM_API void* lltm_last_error ();
 LLTM_API void lltm_last_error_clear();
 
 LLTM_API void* _lltm_sgd (void* params, double lr, double momentum, double dampening, double weight_decay, bool nesterov);
+LLTM_API void* _lltm_run_script_module (void* jit_module, void* input);
 LLTM_API void* _lltm_forward (void* input, void* weights, void* bias, void* old_h, void* old_cell);
 LLTM_API void* _lltm_backward (void* grad_h, void* grad_cell, void* new_cell, void* input_gate, void* output_gate, void* candidate_cell, void* X, void* gate_weights, void* weights);
 LLTM_API void _delete_optim_sgd (void* x);
+LLTM_API void _delete_jit_module2 (void* x);
 
 #ifdef RCPP_VERSION
 inline void* lltm_sgd (void* params, double lr, double momentum, double dampening, double weight_decay, bool nesterov) {
   auto ret =  _lltm_sgd(params, lr, momentum, dampening, weight_decay, nesterov);
+  host_exception_handler();
+  return ret;
+}
+inline void* lltm_run_script_module (void* jit_module, void* input) {
+  auto ret =  _lltm_run_script_module(jit_module, input);
   host_exception_handler();
   return ret;
 }
@@ -50,6 +57,11 @@ inline void* lltm_backward (void* grad_h, void* grad_cell, void* new_cell, void*
 }
 inline void delete_optim_sgd (void* x) {
    _delete_optim_sgd(x);
+  host_exception_handler();
+  
+}
+inline void delete_jit_module2 (void* x) {
+   _delete_jit_module2(x);
   host_exception_handler();
   
 }

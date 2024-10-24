@@ -21,6 +21,13 @@ LLTM_API void* _lltm_sgd (void* params, double lr, double momentum, double dampe
   } LLTM_HANDLE_EXCEPTION
   return (void*) NULL;
 }
+torch::Tensor lltm_run_script_module (jit_module jit_module, torch::Tensor input);
+LLTM_API void* _lltm_run_script_module (void* jit_module, void* input) {
+  try {
+    return  make_raw::Tensor(lltm_run_script_module(from_raw::JitModule(jit_module), from_raw::Tensor(input)));
+  } LLTM_HANDLE_EXCEPTION
+  return (void*) NULL;
+}
 std::vector<torch::Tensor> lltm_forward (torch::Tensor input, torch::Tensor weights, torch::Tensor bias, torch::Tensor old_h, torch::Tensor old_cell);
 LLTM_API void* _lltm_forward (void* input, void* weights, void* bias, void* old_h, void* old_cell) {
   try {
@@ -39,6 +46,13 @@ void delete_optim_sgd (void* x);
 LLTM_API void _delete_optim_sgd (void* x) {
   try {
      (delete_optim_sgd(x));
+  } LLTM_HANDLE_EXCEPTION
+  
+}
+void delete_jit_module2 (void* x);
+LLTM_API void _delete_jit_module2 (void* x) {
+  try {
+     (delete_jit_module2(x));
   } LLTM_HANDLE_EXCEPTION
   
 }

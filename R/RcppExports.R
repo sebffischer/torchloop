@@ -5,6 +5,10 @@ rcpp_lltm_sgd <- function(params, lr, momentum, dampening, weight_decay, nestero
     .Call('_lltm_rcpp_lltm_sgd', PACKAGE = 'lltm', params, lr, momentum, dampening, weight_decay, nesterov)
 }
 
+rcpp_lltm_run_script_module <- function(jit_module, input) {
+    .Call('_lltm_rcpp_lltm_run_script_module', PACKAGE = 'lltm', jit_module, input)
+}
+
 rcpp_lltm_forward <- function(input, weights, bias, old_h, old_cell) {
     .Call('_lltm_rcpp_lltm_forward', PACKAGE = 'lltm', input, weights, bias, old_h, old_cell)
 }
@@ -15,6 +19,10 @@ rcpp_lltm_backward <- function(grad_h, grad_cell, new_cell, input_gate, output_g
 
 rcpp_delete_optim_sgd <- function(x) {
     invisible(.Call('_lltm_rcpp_delete_optim_sgd', PACKAGE = 'lltm', x))
+}
+
+rcpp_delete_jit_module2 <- function(x) {
+    invisible(.Call('_lltm_rcpp_delete_jit_module2', PACKAGE = 'lltm', x))
 }
 
 lltm_raise_exception <- function() {

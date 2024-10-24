@@ -8,8 +8,6 @@
 
 #include <torch/script.h>  // One-stop header.
 
-using namespace torch::jit;
-
 torch::Tensor d_sigmoid(torch::Tensor z) {
   auto s = torch::sigmoid(z);
   return (1 - s) * s;
@@ -25,6 +23,13 @@ optim_sgd lltm_sgd(torch::TensorList params, double lr, double momentum, double 
     .weight_decay(weight_decay)
     .nesterov(nesterov);
  return new torch::optim::SGD(params.vec(), options);
+}
+
+
+// [[torch::export(register_types=c("jit_module", "JitModule", "void*", "lltm::jit_module"))]]
+torch::Tensor lltm_run_script_module(jit_module jit_module, torch::Tensor input) {
+    torch::Tensor output = jit_module->forward({input}).toTensor();
+    return output;
 }
 
 

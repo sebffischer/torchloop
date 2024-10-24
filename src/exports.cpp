@@ -8,6 +8,10 @@ lltm::optim_sgd rcpp_lltm_sgd (torch::TensorList params, double lr, double momen
   return  lltm_sgd(params.get(), lr, momentum, dampening, weight_decay, nesterov);
 }
 // [[Rcpp::export]]
+torch::Tensor rcpp_lltm_run_script_module (lltm::jit_module jit_module, torch::Tensor input) {
+  return  lltm_run_script_module(jit_module.get(), input.get());
+}
+// [[Rcpp::export]]
 torch::TensorList rcpp_lltm_forward (torch::Tensor input, torch::Tensor weights, torch::Tensor bias, torch::Tensor old_h, torch::Tensor old_cell) {
   return  lltm_forward(input.get(), weights.get(), bias.get(), old_h.get(), old_cell.get());
 }
@@ -18,4 +22,8 @@ torch::TensorList rcpp_lltm_backward (torch::Tensor grad_h, torch::Tensor grad_c
 // [[Rcpp::export]]
 void rcpp_delete_optim_sgd (void* x) {
    delete_optim_sgd(x);
+}
+// [[Rcpp::export]]
+void rcpp_delete_jit_module2 (void* x) {
+   delete_jit_module2(x);
 }
