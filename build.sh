@@ -42,4 +42,8 @@ cp ../src/lltm.def ../../inst/def
 echo_message "Copying include files to inst/include/..."
 cp -r ../include/lltm ../../inst/include/
 
+cd ../..
+
 echo_message "Build process completed successfully!"
+
+Rscript -e 'Rcpp::compileAttributes(); devtools::install(".", upgrade = "never")'
