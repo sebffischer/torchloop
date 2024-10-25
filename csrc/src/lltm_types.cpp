@@ -33,10 +33,10 @@ void delete_optim_sgd(void* x) {
 }
 // [[torch::export]]
 void delete_graph_function(void* x) {
-  delete reinterpret_cast<graph_function*>(x);
+  delete reinterpret_cast<graph_function>(x);
 }
 
 // [[torch::export]]
 void delete_stack2(void* x) {
-  delete reinterpret_cast<stack*>(x);
+  delete reinterpret_cast<stack>(x);
 }
