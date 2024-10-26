@@ -1,5 +1,6 @@
 #include <ATen/core/stack.h>
 #include <ATen/ops/_batch_norm_impl_index.h>
+#include <ATen/ops/randn.h>
 #include <torch/csrc/jit/api/function_impl.h>
 #include <torch/torch.h>
 #define LANTERN_TYPES_IMPL // Should be defined only in a single file.
@@ -9,6 +10,7 @@
 #include "lltm/lltm_types.h"
 
 #include <torch/script.h>  // One-stop header.
+
 
 torch::Tensor d_sigmoid(torch::Tensor z) {
   auto s = torch::sigmoid(z);
@@ -27,13 +29,25 @@ optim_sgd lltm_sgd(torch::TensorList params, double lr, double momentum, double 
  return new torch::optim::SGD(params.vec(), options);
 }
 
+// [[torch::export]]
+void lltm_sgd_step(optim_sgd opt) {
+  opt->step();
+}
 
-// [[torch::export(register_types=list(c("graph_function", "GraphFunction", "void*", "lltm::graph_function"), c("stack", "Stack", "void*", "lltm::stack")))]]
-stack lltm_run_script_module(graph_function fn, stack stack) {
-  auto outputs = new torch::jit::Stack();
-  auto out = (*fn)(*stack);
-  outputs->push_back(out);
-  return outputs;
+// [[torch::export]]
+void lltm_sgd_zero_grad(optim_sgd opt) {
+  opt->zero_grad();
+}
+
+
+// [[torch::export(register_types=c("graph_function", "GraphFunction", "void*", "lltm::graph_function"))]]
+void lltm_run_script_module(graph_function fn) {
+  std::cout << fn->isGraphFunction();
+
+  // auto inputs = new torch::jit::Stack();
+  // inputs->push_back(x);
+  // auto out = (*fn)(*inputs);
+  // return out.toTensor();
 }
 
 

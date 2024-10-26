@@ -17,8 +17,6 @@ LinkingTo:
     Rcpp, torch
 Imports: 
     Rcpp, torch
-Remotes:
-    mlverse/torch
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

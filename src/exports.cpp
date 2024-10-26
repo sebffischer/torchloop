@@ -8,8 +8,16 @@ lltm::optim_sgd rcpp_lltm_sgd (torch::TensorList params, double lr, double momen
   return  lltm_sgd(params.get(), lr, momentum, dampening, weight_decay, nesterov);
 }
 // [[Rcpp::export]]
-lltm::stack rcpp_lltm_run_script_module (lltm::graph_function fn, lltm::stack stack) {
-  return  lltm_run_script_module(fn.get(), stack.get());
+void rcpp_lltm_sgd_step (lltm::optim_sgd opt) {
+   lltm_sgd_step(opt.get());
+}
+// [[Rcpp::export]]
+void rcpp_lltm_sgd_zero_grad (lltm::optim_sgd opt) {
+   lltm_sgd_zero_grad(opt.get());
+}
+// [[Rcpp::export]]
+void rcpp_lltm_run_script_module (lltm::graph_function fn) {
+   lltm_run_script_module(fn.get());
 }
 // [[Rcpp::export]]
 torch::TensorList rcpp_lltm_forward (torch::Tensor input, torch::Tensor weights, torch::Tensor bias, torch::Tensor old_h, torch::Tensor old_cell) {

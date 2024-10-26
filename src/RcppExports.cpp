@@ -27,16 +27,34 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_lltm_run_script_module
-lltm::stack rcpp_lltm_run_script_module(lltm::graph_function fn, lltm::stack stack);
-RcppExport SEXP _lltm_rcpp_lltm_run_script_module(SEXP fnSEXP, SEXP stackSEXP) {
+// rcpp_lltm_sgd_step
+void rcpp_lltm_sgd_step(lltm::optim_sgd opt);
+RcppExport SEXP _lltm_rcpp_lltm_sgd_step(SEXP optSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lltm::optim_sgd >::type opt(optSEXP);
+    rcpp_lltm_sgd_step(opt);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_lltm_sgd_zero_grad
+void rcpp_lltm_sgd_zero_grad(lltm::optim_sgd opt);
+RcppExport SEXP _lltm_rcpp_lltm_sgd_zero_grad(SEXP optSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lltm::optim_sgd >::type opt(optSEXP);
+    rcpp_lltm_sgd_zero_grad(opt);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_lltm_run_script_module
+void rcpp_lltm_run_script_module(lltm::graph_function fn);
+RcppExport SEXP _lltm_rcpp_lltm_run_script_module(SEXP fnSEXP) {
+BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lltm::graph_function >::type fn(fnSEXP);
-    Rcpp::traits::input_parameter< lltm::stack >::type stack(stackSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_lltm_run_script_module(fn, stack));
-    return rcpp_result_gen;
+    rcpp_lltm_run_script_module(fn);
+    return R_NilValue;
 END_RCPP
 }
 // rcpp_lltm_forward
@@ -115,7 +133,9 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lltm_rcpp_lltm_sgd", (DL_FUNC) &_lltm_rcpp_lltm_sgd, 6},
-    {"_lltm_rcpp_lltm_run_script_module", (DL_FUNC) &_lltm_rcpp_lltm_run_script_module, 2},
+    {"_lltm_rcpp_lltm_sgd_step", (DL_FUNC) &_lltm_rcpp_lltm_sgd_step, 1},
+    {"_lltm_rcpp_lltm_sgd_zero_grad", (DL_FUNC) &_lltm_rcpp_lltm_sgd_zero_grad, 1},
+    {"_lltm_rcpp_lltm_run_script_module", (DL_FUNC) &_lltm_rcpp_lltm_run_script_module, 1},
     {"_lltm_rcpp_lltm_forward", (DL_FUNC) &_lltm_rcpp_lltm_forward, 5},
     {"_lltm_rcpp_lltm_backward", (DL_FUNC) &_lltm_rcpp_lltm_backward, 9},
     {"_lltm_rcpp_delete_optim_sgd", (DL_FUNC) &_lltm_rcpp_delete_optim_sgd, 1},

@@ -5,8 +5,16 @@ rcpp_lltm_sgd <- function(params, lr, momentum, dampening, weight_decay, nestero
     .Call('_lltm_rcpp_lltm_sgd', PACKAGE = 'lltm', params, lr, momentum, dampening, weight_decay, nesterov)
 }
 
-rcpp_lltm_run_script_module <- function(fn, stack) {
-    .Call('_lltm_rcpp_lltm_run_script_module', PACKAGE = 'lltm', fn, stack)
+rcpp_lltm_sgd_step <- function(opt) {
+    invisible(.Call('_lltm_rcpp_lltm_sgd_step', PACKAGE = 'lltm', opt))
+}
+
+rcpp_lltm_sgd_zero_grad <- function(opt) {
+    invisible(.Call('_lltm_rcpp_lltm_sgd_zero_grad', PACKAGE = 'lltm', opt))
+}
+
+rcpp_lltm_run_script_module <- function(fn) {
+    invisible(.Call('_lltm_rcpp_lltm_run_script_module', PACKAGE = 'lltm', fn))
 }
 
 rcpp_lltm_forward <- function(input, weights, bias, old_h, old_cell) {

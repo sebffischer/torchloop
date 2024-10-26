@@ -21,12 +21,26 @@ LLTM_API void* _lltm_sgd (void* params, double lr, double momentum, double dampe
   } LLTM_HANDLE_EXCEPTION
   return (void*) NULL;
 }
-stack lltm_run_script_module (graph_function fn, stack stack);
-LLTM_API void* _lltm_run_script_module (void* fn, void* stack) {
+void lltm_sgd_step (optim_sgd opt);
+LLTM_API void _lltm_sgd_step (void* opt) {
   try {
-    return  make_raw::Stack(lltm_run_script_module(from_raw::GraphFunction(fn), from_raw::Stack(stack)));
+     (lltm_sgd_step(from_raw::SGD(opt)));
   } LLTM_HANDLE_EXCEPTION
-  return (void*) NULL;
+  
+}
+void lltm_sgd_zero_grad (optim_sgd opt);
+LLTM_API void _lltm_sgd_zero_grad (void* opt) {
+  try {
+     (lltm_sgd_zero_grad(from_raw::SGD(opt)));
+  } LLTM_HANDLE_EXCEPTION
+  
+}
+void lltm_run_script_module (graph_function fn);
+LLTM_API void _lltm_run_script_module (void* fn) {
+  try {
+     (lltm_run_script_module(from_raw::GraphFunction(fn)));
+  } LLTM_HANDLE_EXCEPTION
+  
 }
 std::vector<torch::Tensor> lltm_forward (torch::Tensor input, torch::Tensor weights, torch::Tensor bias, torch::Tensor old_h, torch::Tensor old_cell);
 LLTM_API void* _lltm_forward (void* input, void* weights, void* bias, void* old_h, void* old_cell) {

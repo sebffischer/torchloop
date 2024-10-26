@@ -28,7 +28,9 @@ LLTM_API void* lltm_last_error ();
 LLTM_API void lltm_last_error_clear();
 
 LLTM_API void* _lltm_sgd (void* params, double lr, double momentum, double dampening, double weight_decay, bool nesterov);
-LLTM_API void* _lltm_run_script_module (void* fn, void* stack);
+LLTM_API void _lltm_sgd_step (void* opt);
+LLTM_API void _lltm_sgd_zero_grad (void* opt);
+LLTM_API void _lltm_run_script_module (void* fn);
 LLTM_API void* _lltm_forward (void* input, void* weights, void* bias, void* old_h, void* old_cell);
 LLTM_API void* _lltm_backward (void* grad_h, void* grad_cell, void* new_cell, void* input_gate, void* output_gate, void* candidate_cell, void* X, void* gate_weights, void* weights);
 LLTM_API void _delete_optim_sgd (void* x);
@@ -41,10 +43,20 @@ inline void* lltm_sgd (void* params, double lr, double momentum, double dampenin
   host_exception_handler();
   return ret;
 }
-inline void* lltm_run_script_module (void* fn, void* stack) {
-  auto ret =  _lltm_run_script_module(fn, stack);
+inline void lltm_sgd_step (void* opt) {
+   _lltm_sgd_step(opt);
   host_exception_handler();
-  return ret;
+  
+}
+inline void lltm_sgd_zero_grad (void* opt) {
+   _lltm_sgd_zero_grad(opt);
+  host_exception_handler();
+  
+}
+inline void lltm_run_script_module (void* fn) {
+   _lltm_run_script_module(fn);
+  host_exception_handler();
+  
 }
 inline void* lltm_forward (void* input, void* weights, void* bias, void* old_h, void* old_cell) {
   auto ret =  _lltm_forward(input, weights, bias, old_h, old_cell);
