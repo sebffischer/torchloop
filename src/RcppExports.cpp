@@ -11,6 +11,34 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// rcpp_lltm_sgd
+lltm::optim_sgd rcpp_lltm_sgd(torch::TensorList params, double lr, double momentum, double dampening, double weight_decay, bool nesterov);
+RcppExport SEXP _lltm_rcpp_lltm_sgd(SEXP paramsSEXP, SEXP lrSEXP, SEXP momentumSEXP, SEXP dampeningSEXP, SEXP weight_decaySEXP, SEXP nesterovSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< torch::TensorList >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< double >::type lr(lrSEXP);
+    Rcpp::traits::input_parameter< double >::type momentum(momentumSEXP);
+    Rcpp::traits::input_parameter< double >::type dampening(dampeningSEXP);
+    Rcpp::traits::input_parameter< double >::type weight_decay(weight_decaySEXP);
+    Rcpp::traits::input_parameter< bool >::type nesterov(nesterovSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_lltm_sgd(params, lr, momentum, dampening, weight_decay, nesterov));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_lltm_run_script_module
+lltm::stack rcpp_lltm_run_script_module(lltm::graph_function fn, lltm::stack stack);
+RcppExport SEXP _lltm_rcpp_lltm_run_script_module(SEXP fnSEXP, SEXP stackSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lltm::graph_function >::type fn(fnSEXP);
+    Rcpp::traits::input_parameter< lltm::stack >::type stack(stackSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_lltm_run_script_module(fn, stack));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_lltm_forward
 torch::TensorList rcpp_lltm_forward(torch::Tensor input, torch::Tensor weights, torch::Tensor bias, torch::Tensor old_h, torch::Tensor old_cell);
 RcppExport SEXP _lltm_rcpp_lltm_forward(SEXP inputSEXP, SEXP weightsSEXP, SEXP biasSEXP, SEXP old_hSEXP, SEXP old_cellSEXP) {
@@ -45,6 +73,36 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_delete_optim_sgd
+void rcpp_delete_optim_sgd(void* x);
+RcppExport SEXP _lltm_rcpp_delete_optim_sgd(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< void* >::type x(xSEXP);
+    rcpp_delete_optim_sgd(x);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_delete_graph_function
+void rcpp_delete_graph_function(void* x);
+RcppExport SEXP _lltm_rcpp_delete_graph_function(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< void* >::type x(xSEXP);
+    rcpp_delete_graph_function(x);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_delete_stack2
+void rcpp_delete_stack2(void* x);
+RcppExport SEXP _lltm_rcpp_delete_stack2(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< void* >::type x(xSEXP);
+    rcpp_delete_stack2(x);
+    return R_NilValue;
+END_RCPP
+}
 // lltm_raise_exception
 void lltm_raise_exception();
 RcppExport SEXP _lltm_lltm_raise_exception() {
@@ -56,8 +114,13 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_lltm_rcpp_lltm_sgd", (DL_FUNC) &_lltm_rcpp_lltm_sgd, 6},
+    {"_lltm_rcpp_lltm_run_script_module", (DL_FUNC) &_lltm_rcpp_lltm_run_script_module, 2},
     {"_lltm_rcpp_lltm_forward", (DL_FUNC) &_lltm_rcpp_lltm_forward, 5},
     {"_lltm_rcpp_lltm_backward", (DL_FUNC) &_lltm_rcpp_lltm_backward, 9},
+    {"_lltm_rcpp_delete_optim_sgd", (DL_FUNC) &_lltm_rcpp_delete_optim_sgd, 1},
+    {"_lltm_rcpp_delete_graph_function", (DL_FUNC) &_lltm_rcpp_delete_graph_function, 1},
+    {"_lltm_rcpp_delete_stack2", (DL_FUNC) &_lltm_rcpp_delete_stack2, 1},
     {"_lltm_lltm_raise_exception", (DL_FUNC) &_lltm_lltm_raise_exception, 0},
     {NULL, NULL, 0}
 };
