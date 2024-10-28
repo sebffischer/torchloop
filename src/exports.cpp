@@ -16,8 +16,8 @@ void rcpp_lltm_sgd_zero_grad (lltm::optim_sgd opt) {
    lltm_sgd_zero_grad(opt.get());
 }
 // [[Rcpp::export]]
-void* rcpp_lltm_run_script_module (Rcpp::XPtr<XPtrTorchJITModule> network, Rcpp::XPtr<XPtrTorchFunctionPtr> loss_fn, torch::Tensor input, torch::Tensor target) {
-  return  lltm_run_script_module(network.get(), loss_fn.get(), input.get(), target.get());
+void rcpp_lltm_run_script_module (Rcpp::XPtr<XPtrTorchScriptModule> network, Rcpp::XPtr<XPtrTorchFunctionPtr> loss_fn, torch::Tensor input, torch::Tensor target) {
+   lltm_run_script_module(network.get(), loss_fn.get(), input.get(), target.get());
 }
 // [[Rcpp::export]]
 torch::TensorList rcpp_lltm_forward (torch::Tensor input, torch::Tensor weights, torch::Tensor bias, torch::Tensor old_h, torch::Tensor old_cell) {
