@@ -35,12 +35,12 @@ LLTM_API void _lltm_sgd_zero_grad (void* opt) {
   } LLTM_HANDLE_EXCEPTION
   
 }
-void lltm_run_script_module (script_module network, graph_function loss_fn, torch::Tensor input, torch::Tensor target);
-LLTM_API void _lltm_run_script_module (void* network, void* loss_fn, void* input, void* target) {
+void* lltm_run_script_module (script_module network, graph_function loss_fn, torch::Tensor input, torch::Tensor target);
+LLTM_API void* _lltm_run_script_module (void* network, void* loss_fn, void* input, void* target) {
   try {
-     (lltm_run_script_module(from_raw::ScriptModule(network), from_raw::GraphFunction(loss_fn), from_raw::Tensor(input), from_raw::Tensor(target)));
+    return  (lltm_run_script_module(from_raw::ScriptModule(network), from_raw::GraphFunction(loss_fn), from_raw::Tensor(input), from_raw::Tensor(target)));
   } LLTM_HANDLE_EXCEPTION
-  
+  return (void*) NULL;
 }
 std::vector<torch::Tensor> lltm_forward (torch::Tensor input, torch::Tensor weights, torch::Tensor bias, torch::Tensor old_h, torch::Tensor old_cell);
 LLTM_API void* _lltm_forward (void* input, void* weights, void* bias, void* old_h, void* old_cell) {

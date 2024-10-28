@@ -43,7 +43,7 @@ void lltm_sgd_zero_grad(optim_sgd opt) {
 // TODO: allow list of tensors
 
 // [[torch::export(register_types=list(c("graph_function", "GraphFunction", "void*", "Rcpp::XPtr<XPtrTorchFunctionPtr>"), c("script_module", "ScriptModule", "void*", "Rcpp::XPtr<XPtrTorchJITModule>")))]]
-void lltm_run_script_module(script_module network, graph_function loss_fn, torch::Tensor input, torch::Tensor target) {
+void* lltm_run_script_module(script_module network, graph_function loss_fn, torch::Tensor input, torch::Tensor target) {
   // std::cout << network->isGraphFunction() << std::endl;
   network->children();
 
