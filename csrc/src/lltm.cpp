@@ -43,26 +43,27 @@ void lltm_sgd_zero_grad(optim_sgd opt) {
 // TODO: allow list of tensors
 
 // [[torch::export(register_types=list(c("graph_function", "GraphFunction", "void*", "Rcpp::XPtr<XPtrTorchFunctionPtr>"), c("script_module", "ScriptModule", "void*", "Rcpp::XPtr<XPtrTorchScriptModule>")))]]
-void lltm_run_script_module(script_module network, graph_function loss_fn, torch::Tensor input, torch::Tensor target) {
+torch::Tensor lltm_run_script_module(script_module network, graph_function loss_fn, torch::Tensor input, torch::Tensor target, optim_sgd optimizer) {
   // std::cout << network->isGraphFunction() << std::endl;
-  network->children();
+  // network->children();
+  optimizer->zero_grad();
 
-  // auto inputs = new torch::jit::Stack();
-  // inputs->push_back(input);
-  // auto out = (*network)(*inputs);
+  auto inputs = new torch::jit::Stack();
+  inputs->push_back(input);
+  auto out = (*network)(*inputs);
 
   
-  // auto loss_inputs = new torch::jit::Stack();
-  // loss_inputs->push_back(out);
-  // loss_inputs->push_back(target);
+  auto loss_inputs = new torch::jit::Stack();
+  loss_inputs->push_back(out);
+  loss_inputs->push_back(target);
 
-  // auto loss = (*loss_fn)(*loss_inputs);
+  auto loss = (*loss_fn)(*loss_inputs);
 
-  // return loss.toTensor();
-  // loss.toTensor().backward();
- 
+  loss.toTensor().backward();
 
-  // return out.toTensor();
+  optimizer->step();
+
+  return out.toTensor();
 }
 
 // [[torch::export]]
