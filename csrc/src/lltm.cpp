@@ -2,6 +2,7 @@
 #include <ATen/ops/_batch_norm_impl_index.h>
 #include <ATen/ops/randn.h>
 #include <torch/csrc/jit/api/function_impl.h>
+#include <torch/csrc/jit/api/module.h>
 #include <torch/torch.h>
 #define LANTERN_TYPES_IMPL // Should be defined only in a single file.
 #include <lantern/types.h>
@@ -39,17 +40,29 @@ void lltm_sgd_zero_grad(optim_sgd opt) {
   opt->zero_grad();
 }
 
+// TODO: allow list of tensors
 
-// [[torch::export(register_types=c("graph_function", "GraphFunction", "void*", "lltm::graph_function"))]]
-void lltm_run_script_module(graph_function fn) {
-  std::cout << fn->isGraphFunction();
+// [[torch::export(register_types=list(c("graph_function", "GraphFunction", "void*", "Rcpp::XPtr<XPtrTorchFunctionPtr>")))]]
+torch::Tensor lltm_run_script_module(graph_function network, graph_function loss_fn, torch::Tensor input, torch::Tensor target) {
+  // std::cout << network->isGraphFunction() << std::endl;
 
-  // auto inputs = new torch::jit::Stack();
-  // inputs->push_back(x);
-  // auto out = (*fn)(*inputs);
+  auto inputs = new torch::jit::Stack();
+  inputs->push_back(input);
+  auto out = (*network)(*inputs);
+
+  
+  auto loss_inputs = new torch::jit::Stack();
+  loss_inputs->push_back(out);
+  loss_inputs->push_back(target);
+
+  auto loss = (*loss_fn)(*loss_inputs);
+
+  return loss.toTensor();
+  // loss.toTensor().backward();
+ 
+
   // return out.toTensor();
 }
-
 
 // [[torch::export]]
 std::vector<torch::Tensor> lltm_forward(

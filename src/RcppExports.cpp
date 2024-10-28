@@ -48,13 +48,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_lltm_run_script_module
-void rcpp_lltm_run_script_module(lltm::graph_function fn);
-RcppExport SEXP _lltm_rcpp_lltm_run_script_module(SEXP fnSEXP) {
+torch::Tensor rcpp_lltm_run_script_module(Rcpp::XPtr<XPtrTorchFunctionPtr> network, Rcpp::XPtr<XPtrTorchFunctionPtr> loss_fn, torch::Tensor input, torch::Tensor target);
+RcppExport SEXP _lltm_rcpp_lltm_run_script_module(SEXP networkSEXP, SEXP loss_fnSEXP, SEXP inputSEXP, SEXP targetSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< lltm::graph_function >::type fn(fnSEXP);
-    rcpp_lltm_run_script_module(fn);
-    return R_NilValue;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<XPtrTorchFunctionPtr> >::type network(networkSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<XPtrTorchFunctionPtr> >::type loss_fn(loss_fnSEXP);
+    Rcpp::traits::input_parameter< torch::Tensor >::type input(inputSEXP);
+    Rcpp::traits::input_parameter< torch::Tensor >::type target(targetSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_lltm_run_script_module(network, loss_fn, input, target));
+    return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_lltm_forward
@@ -135,7 +139,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lltm_rcpp_lltm_sgd", (DL_FUNC) &_lltm_rcpp_lltm_sgd, 6},
     {"_lltm_rcpp_lltm_sgd_step", (DL_FUNC) &_lltm_rcpp_lltm_sgd_step, 1},
     {"_lltm_rcpp_lltm_sgd_zero_grad", (DL_FUNC) &_lltm_rcpp_lltm_sgd_zero_grad, 1},
-    {"_lltm_rcpp_lltm_run_script_module", (DL_FUNC) &_lltm_rcpp_lltm_run_script_module, 1},
+    {"_lltm_rcpp_lltm_run_script_module", (DL_FUNC) &_lltm_rcpp_lltm_run_script_module, 4},
     {"_lltm_rcpp_lltm_forward", (DL_FUNC) &_lltm_rcpp_lltm_forward, 5},
     {"_lltm_rcpp_lltm_backward", (DL_FUNC) &_lltm_rcpp_lltm_backward, 9},
     {"_lltm_rcpp_delete_optim_sgd", (DL_FUNC) &_lltm_rcpp_delete_optim_sgd, 1},
