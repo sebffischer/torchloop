@@ -14,7 +14,7 @@ rcpp_lltm_sgd_zero_grad <- function(opt) {
 }
 
 rcpp_lltm_run_script_module <- function(network, loss_fn, input, target) {
-    .Call('_lltm_rcpp_lltm_run_script_module', PACKAGE = 'lltm', network, loss_fn, input, target)
+    invisible(.Call('_lltm_rcpp_lltm_run_script_module', PACKAGE = 'lltm', network, loss_fn, input, target))
 }
 
 rcpp_lltm_forward <- function(input, weights, bias, old_h, old_cell) {
@@ -31,6 +31,10 @@ rcpp_delete_optim_sgd <- function(x) {
 
 rcpp_delete_graph_function <- function(x) {
     invisible(.Call('_lltm_rcpp_delete_graph_function', PACKAGE = 'lltm', x))
+}
+
+rcpp_delete_script_module2 <- function(x) {
+    invisible(.Call('_lltm_rcpp_delete_script_module2', PACKAGE = 'lltm', x))
 }
 
 rcpp_delete_stack2 <- function(x) {

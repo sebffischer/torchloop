@@ -48,17 +48,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_lltm_run_script_module
-torch::Tensor rcpp_lltm_run_script_module(Rcpp::XPtr<XPtrTorchFunctionPtr> network, Rcpp::XPtr<XPtrTorchFunctionPtr> loss_fn, torch::Tensor input, torch::Tensor target);
+void rcpp_lltm_run_script_module(Rcpp::XPtr<XPtrTorchJITModule> network, Rcpp::XPtr<XPtrTorchFunctionPtr> loss_fn, torch::Tensor input, torch::Tensor target);
 RcppExport SEXP _lltm_rcpp_lltm_run_script_module(SEXP networkSEXP, SEXP loss_fnSEXP, SEXP inputSEXP, SEXP targetSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<XPtrTorchFunctionPtr> >::type network(networkSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<XPtrTorchJITModule> >::type network(networkSEXP);
     Rcpp::traits::input_parameter< Rcpp::XPtr<XPtrTorchFunctionPtr> >::type loss_fn(loss_fnSEXP);
     Rcpp::traits::input_parameter< torch::Tensor >::type input(inputSEXP);
     Rcpp::traits::input_parameter< torch::Tensor >::type target(targetSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_lltm_run_script_module(network, loss_fn, input, target));
-    return rcpp_result_gen;
+    rcpp_lltm_run_script_module(network, loss_fn, input, target);
+    return R_NilValue;
 END_RCPP
 }
 // rcpp_lltm_forward
@@ -115,6 +114,16 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rcpp_delete_script_module2
+void rcpp_delete_script_module2(void* x);
+RcppExport SEXP _lltm_rcpp_delete_script_module2(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< void* >::type x(xSEXP);
+    rcpp_delete_script_module2(x);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_delete_stack2
 void rcpp_delete_stack2(void* x);
 RcppExport SEXP _lltm_rcpp_delete_stack2(SEXP xSEXP) {
@@ -144,6 +153,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lltm_rcpp_lltm_backward", (DL_FUNC) &_lltm_rcpp_lltm_backward, 9},
     {"_lltm_rcpp_delete_optim_sgd", (DL_FUNC) &_lltm_rcpp_delete_optim_sgd, 1},
     {"_lltm_rcpp_delete_graph_function", (DL_FUNC) &_lltm_rcpp_delete_graph_function, 1},
+    {"_lltm_rcpp_delete_script_module2", (DL_FUNC) &_lltm_rcpp_delete_script_module2, 1},
     {"_lltm_rcpp_delete_stack2", (DL_FUNC) &_lltm_rcpp_delete_stack2, 1},
     {"_lltm_lltm_raise_exception", (DL_FUNC) &_lltm_lltm_raise_exception, 0},
     {NULL, NULL, 0}

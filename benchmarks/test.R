@@ -9,7 +9,7 @@ nf = jit_trace(nn_linear(1, 1), input)
 loss_fn = jit_trace(nnf_mse_loss, input, input)
 
 loss = lltm:::rcpp_lltm_run_script_module(
-  network = attr(nf$forward, "method"),
+  network = nf$forward |> environment() |> with(ptr),
   loss_fn = loss_fn$ptr,
   input   = input,
   target  = target

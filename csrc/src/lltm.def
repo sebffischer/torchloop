@@ -11,6 +11,7 @@ EXPORTS
   _lltm_backward
   _delete_optim_sgd
   _delete_graph_function
+  _delete_script_module2
   _delete_stack2
   lltm_last_error
   lltm_last_error_clear
